@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
+import '../../styling/App1.scss';
 
 function App() {
   return (
     <div className="App">
-<div>hello</div>
+<div>hola</div>
     </div>
   );
 }
