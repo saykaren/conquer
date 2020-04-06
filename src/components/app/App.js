@@ -1,45 +1,7 @@
 import React, { useState } from 'react';
 import '../../styling/App1.scss';
-import Table from './TableContent';
-import Calculations from './calculations';
 import numberConverter from './numberConverter';
 
-// const App = ()=>{
-//
-//     const [mortgage, setMortgage] = useState(172000);
-//     const [interest, setInterest] = useState(3.75);
-//     const [bankPayment, setBankPayment] = useState(1500);
-//
-//     // const startCalculations = (e)=>{
-//     //     setMortgage(e.currentTarget.value);
-//     //
-//     // }
-//
-//     return(
-//         <section className="App">
-//             <div id="inputSection">
-//             {/*<div className="inputSection">*/}
-//             {/*    Mortgage {mortgage}*/}
-//             {/*</div>*/}
-//             {/*    <div className="inputSection">*/}
-//             {/*    Interest Rate {interest}*/}
-//             {/*</div>*/}
-//             {/*    <div className="inputSection">*/}
-//             {/*    Monthly Payment {bankPayment}*/}
-//             {/*</div>*/}
-//             </div>
-//
-//             <form>
-//                 <label>
-//                     Mortage:
-//                     <input type="number" name="Mortgage" value={mortgage} onChange={(e)=>setMortgage(e.currentTarget.value)}></input>
-//                 </label>
-//             </form>
-//         {/*<Table mortgage={mortgage} bankPayment={bankPayment}/>*/}
-//         <Calculations mortgage={mortgage} interest={interest} bankPayment={bankPayment}/>
-//         </section>
-//     )
-// }
 
 ///Dates
 let todayDate = new Date();
@@ -96,7 +58,7 @@ const App = () => {
   const [monthDate, setMonthDate] = useState([]);
 
   const generateCalculation = () => {
-    console.log('hello');
+      if(principalPaidArray.length<1 | newEndingPrincipalArray[newEndingPrincipalArray.length - 1] > monthlyPayment) {
     if (extraNewEndingPrincipalArray.length < 1) {
       setExtraNewEndingPrincipalArray([principal]);
     }
@@ -151,7 +113,7 @@ const App = () => {
         ...extraNewEndingPrincipalArray,
         extraBalance,
       ]);
-    }
+    } }
   };
 
   const resetCalculation = () => {
@@ -278,96 +240,18 @@ const App = () => {
       </div>
 
       <button onClick={() => generateCalculation()}>Click Me</button>
-        <button onClick={() => window.location.reload(false) }>Reset Numbers</button>
+        <button onClick={() => window.location.reload() }>Reset Numbers</button>
 
-      {/*<InputSection*/}
-      {/*    principal={principal}*/}
-      {/*    setPrincipal={setPrincipal}*/}
-      {/*    interestRate={interestRate}*/}
-      {/*    setInterestRate={setInterestRate}*/}
-      {/*    monthlyPayment={monthlyPayment}*/}
-      {/*    setMonthlyPayment={setMonthlyPayment}*/}
-      {/*    extraPayment={extraPayment}*/}
-      {/*    setExtraPayment={setExtraPayment}*/}
-      {/*    monthArray={monthArray}*/}
-      {/*/>*/}
-      {/*<h2 className="header">You Can Do Anything You Put Your Mind To!</h2>*/}
 
-      {/*<section className="evaluate">*/}
 
-      {/*    <InterestPayments*/}
-      {/*        interestPaid={interestPaidArray}*/}
-      {/*        principal={principal}*/}
-      {/*        principalPaid={principalPaidArray}*/}
-      {/*    />*/}
-      {/*    <Completion*/}
-      {/*        interestPaidArray={interestPaidArray}*/}
-      {/*        monthArray={monthArray}*/}
-      {/*        principal={principal}*/}
-      {/*    />*/}
-      {/*</section>*/}
 
-      {/*<section className="results">*/}
-      {/*    <section id="AmortizationSchedule">*/}
-      {/*        <button onClick={()=>generateCalculation()}>Calculate</button>*/}
-      {/*        <button onClick={()=>resetCalculation()}>Reset</button>*/}
-      {/*        <h2>Amortization schedule</h2>*/}
-      {/*        <table>*/}
-      {/*            <tr className="titleGroup">*/}
-      {/*                {titleInfo.map((col, index)=>(*/}
-      {/*                    <th className="title"*/}
-      {/*                        key={index}*/}
-      {/*                    >*/}
-      {/*                        {col}*/}
-      {/*                    </th>*/}
-      {/*                ))}*/}
 
-      {/*                {titleExtraInfo.map((col, index)=>(*/}
-      {/*                    <th className={extraPayment>0 ? "title" : "hidden"}*/}
-      {/*                        key={index}*/}
-      {/*                    >*/}
-      {/*                        {col}*/}
-      {/*                    </th>*/}
-      {/*                ))}*/}
-      {/*            </tr>*/}
-      {/*        </table>*/}
 
-      {/*    <div id="amortizationResults">*/}
-      {/*        <ResultArrayReturn specificClassName="month, resultsBoxes" arrayToMap={monthDate}/>*/}
-      {/*        <ResultArrayReturn specificClassName="principalPaid, resultsBoxes" arrayToMap={principalPaidArray} symbol="$"/>*/}
-      {/*        <ResultArrayReturn specificClassName="interestPaid, resultsBoxes" arrayToMap={interestPaidArray} symbol="$"/>*/}
 
-      {/*        <div className="updatedPrincipal, resultsBoxes">*/}
-      {/*            {newEndingPrincipalArray*/}
-      {/*                .filter(x=>(x !==principal))*/}
-      {/*                .map((col, index)=>(*/}
-      {/*                    <div*/}
-      {/*                        className="list"*/}
-      {/*                        key={index}*/}
-      {/*                    >*/}
-      {/*                        ${col}*/}
-      {/*                    </div>*/}
-      {/*                ))}*/}
-      {/*        </div>*/}
 
-      {/*        <HypotheticalAnalysis*/}
-      {/*            extraPayment={extraPayment}*/}
-      {/*            extraPrincipalPaidArray={extraPrincipalPaidArray}*/}
-      {/*            extraInterestPaidArray={extraInterestPaidArray}*/}
-      {/*            monthArray={monthDate}*/}
-      {/*            principal={principal}*/}
-      {/*            extraNewEndingPrincipalArray={extraNewEndingPrincipalArray}*/}
-      {/*        />*/}
-
-      {/*    </div>*/}
-      {/*</section>*/}
-
-      {/*    </section>*/}
-      {/*    <Footer />*/}
     </section>
   );
 };
 
-// export default Calculations;
 
 export default App;
