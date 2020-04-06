@@ -278,6 +278,7 @@ const App = () => {
       </div>
 
       <button onClick={() => generateCalculation()}>Click Me</button>
+        <button onClick={() => window.location.reload(false) }>Reset Numbers</button>
 
       {/*<InputSection*/}
       {/*    principal={principal}*/}
