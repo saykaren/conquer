@@ -14,7 +14,9 @@ const titleInfo = [
 ];
 const titleExtraInfo = ['Principal Paid', 'Interest Paid', 'Ending Principal'];
 
-const Calculations = ({ mortgage }) => {
+const Calculations = ({ mortgage, interest, bankPayment }) => {
+
+
   let monthArray = [
     'January',
     'February',
@@ -32,9 +34,9 @@ const Calculations = ({ mortgage }) => {
   let yearArray = [2020];
 
   // // //User Input
-  const [principal, setPrincipal] = useState(10000);
-  const [interestRate, setInterestRate] = useState(3.125);
-  const [monthlyPayment, setMonthlyPayment] = useState(847.5);
+  const [principal, setPrincipal] = useState(mortgage);
+  const [interestRate, setInterestRate] = useState(interest);
+  const [monthlyPayment, setMonthlyPayment] = useState(bankPayment);
   const [extraPayment, setExtraPayment] = useState(100);
 
   //Extra payment
@@ -52,7 +54,6 @@ const Calculations = ({ mortgage }) => {
   const [monthDate, setMonthDate] = useState([]);
 
   const generateCalculation = () => {
-    console.log(principalPaidArray);
     if (extraNewEndingPrincipalArray.length < 1) {
       setExtraNewEndingPrincipalArray([principal]);
     }
@@ -60,7 +61,7 @@ const Calculations = ({ mortgage }) => {
     if (newEndingPrincipalArray.length < 1) {
       setNewEndingPrincipalArray([principal]);
     }
-    // console.log({currentPrincipal});
+
     let currentPrincipal =
       newEndingPrincipalArray[newEndingPrincipalArray.length - 1];
 
@@ -146,14 +147,14 @@ const Calculations = ({ mortgage }) => {
             </div>
           ))}
         </div>
-        <div className="tableCell">
-          Extra Monthly Payment
-          {newEndingPrincipalArray.map((value, index)=>(
-              <div className="cellDetails" key={index}>
-                {extraPayment}
-              </div>
-          ))}
-        </div>
+        {/*<div className="tableCell">*/}
+        {/*  Extra Monthly Payment*/}
+        {/*  {newEndingPrincipalArray.map((value, index)=>(*/}
+        {/*      <div className="cellDetails" key={index}>*/}
+        {/*        {extraPayment}*/}
+        {/*      </div>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
         <div className="tableCell bottomCell">
           Interest Paid
           <div className="cellDetails" >
