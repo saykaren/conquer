@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../styling/App1.scss';
 import numberConverter from './numberConverter';
-
+import RevealData from './DataRevealed';
 
 ///Dates
 let todayDate = new Date();
@@ -58,104 +58,91 @@ const App = () => {
   const [monthDate, setMonthDate] = useState([]);
 
   const generateCalculation = () => {
-      if(principalPaidArray.length<1 | newEndingPrincipalArray[newEndingPrincipalArray.length - 1] > monthlyPayment) {
-    if (extraNewEndingPrincipalArray.length < 1) {
-      setExtraNewEndingPrincipalArray([principal]);
+    if (
+      (principalPaidArray.length < 1) |
+      (newEndingPrincipalArray[newEndingPrincipalArray.length - 1] >
+        bankPayment)
+    ) {
+      if (extraNewEndingPrincipalArray.length < 1) {
+        setExtraNewEndingPrincipalArray([principal]);
+      }
+
+      if (newEndingPrincipalArray.length < 1) {
+        setNewEndingPrincipalArray([principal]);
+      }
+
+      let currentPrincipal =
+        newEndingPrincipalArray[newEndingPrincipalArray.length - 1];
+
+      if (currentPrincipal > monthlyPayment) {
+        let paymentInterestPaid = numberConverter(
+          currentPrincipal * ((interestRate * 0.01) / 12),
+        );
+        let principalPaid = numberConverter(
+          monthlyPayment - paymentInterestPaid,
+        );
+        let balance = numberConverter(currentPrincipal - principalPaid);
+
+        setPrincipalPaidArray([...principalPaidArray, principalPaid]);
+        setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
+        setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
+
+        let monthDateIndex =
+          monthDate.length - Math.floor(monthDate.length / 12) * 12;
+        setMonthDate([...monthDate, monthArray[monthDateIndex]]);
+      }
+      //extra payment calculations
+      let extraCurrentPrincipal =
+        extraNewEndingPrincipalArray[extraNewEndingPrincipalArray.length - 1];
+      let extraMonthlyPaymentCal = monthlyPayment + extraPayment;
+      if (extraCurrentPrincipal > monthlyPayment + extraPayment) {
+        let extraPaymentInterestPaid = numberConverter(
+          extraCurrentPrincipal * ((interestRate * 0.01) / 12),
+        );
+        let extraPrincipalPaid = numberConverter(
+          extraMonthlyPaymentCal - extraPaymentInterestPaid,
+        );
+        let extraBalance = numberConverter(
+          extraCurrentPrincipal - extraPrincipalPaid,
+        );
+
+        setExtraPrincipalPaidArray([
+          ...extraPrincipalPaidArray,
+          extraPrincipalPaid,
+        ]);
+        setExtraInterestPaidArray([
+          ...extraInterestPaidArray,
+          extraPaymentInterestPaid,
+        ]);
+
+        setExtraNewEndingPrincipalArray([
+          ...extraNewEndingPrincipalArray,
+          extraBalance,
+        ]);
+      }
     }
-
-    if (newEndingPrincipalArray.length < 1) {
-      setNewEndingPrincipalArray([principal]);
-    }
-
-    let currentPrincipal =
-      newEndingPrincipalArray[newEndingPrincipalArray.length - 1];
-
-    if (currentPrincipal > monthlyPayment) {
-      let paymentInterestPaid = numberConverter(
-        currentPrincipal * ((interestRate * 0.01) / 12),
-      );
-      let principalPaid = numberConverter(monthlyPayment - paymentInterestPaid);
-      let balance = numberConverter(currentPrincipal - principalPaid);
-
-      setPrincipalPaidArray([...principalPaidArray, principalPaid]);
-      setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
-      setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
-
-      let monthDateIndex =
-        monthDate.length - Math.floor(monthDate.length / 12) * 12;
-      setMonthDate([...monthDate, monthArray[monthDateIndex]]);
-    }
-    //extra payment calculations
-    let extraCurrentPrincipal =
-      extraNewEndingPrincipalArray[extraNewEndingPrincipalArray.length - 1];
-    let extraMonthlyPaymentCal = monthlyPayment + extraPayment;
-    if (extraCurrentPrincipal > monthlyPayment + extraPayment) {
-      let extraPaymentInterestPaid = numberConverter(
-        extraCurrentPrincipal * ((interestRate * 0.01) / 12),
-      );
-      let extraPrincipalPaid = numberConverter(
-        extraMonthlyPaymentCal - extraPaymentInterestPaid,
-      );
-      let extraBalance = numberConverter(
-        extraCurrentPrincipal - extraPrincipalPaid,
-      );
-
-      setExtraPrincipalPaidArray([
-        ...extraPrincipalPaidArray,
-        extraPrincipalPaid,
-      ]);
-      setExtraInterestPaidArray([
-        ...extraInterestPaidArray,
-        extraPaymentInterestPaid,
-      ]);
-
-      setExtraNewEndingPrincipalArray([
-        ...extraNewEndingPrincipalArray,
-        extraBalance,
-      ]);
-    } }
   };
 
-  const resetCalculation = () => {
-    setPrincipal(0);
-    setInterestRate(0);
-    setMonthlyPayment(0);
-    setExtraPayment(0);
-    setExtraPrincipalPaidArray([]);
-    setInterestPaidArray([]);
-    setNewEndingPrincipalArray([]);
-    setPrincipalPaidArray([]);
-    setInterestPaidArray([]);
-    setNewEndingPrincipalArray([]);
-    setExtraInterestPaidArray([]);
-    setExtraNewEndingPrincipalArray([]);
+  const handleResetMortgageAmount = (e) => {
+    setMortgage(e);
+    setPrincipal(e);
   };
 
-  console.log(principalPaidArray);
+  const handleResetInterestRate = (e) => {
+    setInterest(e);
+    setInterestRate(e);
+  };
 
-  const handleResetMortgageAmount = (e)=>{
-      setMortgage(e);
-      setPrincipal(e);
-  }
-
-    const handleResetInterestRate = (e)=>{
-        setInterest(e);
-        setInterestRate(e);
-    }
-
-    const handleResetMonthlyPayment = (e)=>{
-      setMonthlyPayment(e);
-      setBankPayment(e);
-    }
+  const handleResetMonthlyPayment = (e) => {
+    setMonthlyPayment(e);
+    setBankPayment(e);
+  };
 
   return (
     <section className="App">
       <div id="inputSection">
-        <div className="inputSection">Mortgage {mortgage}</div>
-        <div className="inputSection">Interest Rate {interest}</div>
-        <div className="inputSection">Monthly Payment {bankPayment}</div>
         <form>
-          <label>
+          <label className="inputSection">
             Mortage:
             <input
               type="number"
@@ -164,26 +151,27 @@ const App = () => {
               onChange={(e) => handleResetMortgageAmount(e.currentTarget.value)}
             ></input>
           </label>
-            <label>
-                Interest Rate:
-                <input
-                    type="number"
-                    name="Interest"
-                    value={interest}
-                    onChange={(e) => handleResetInterestRate(e.currentTarget.value)}
-                ></input>
-            </label>
-            <label>
-                Monthly Payment:
-                <input
-                    type="number"
-                    name="MonthlyPayment"
-                    value={monthlyPayment}
-                    onChange={(e) => handleResetMonthlyPayment(e.currentTarget.value)}
-                ></input>
-            </label>
+          <label className="inputSection">
+            Interest Rate:
+            <input
+              type="number"
+              name="Interest"
+              value={interest}
+              onChange={(e) => handleResetInterestRate(e.currentTarget.value)}
+            ></input>
+          </label>
+          <label className="inputSection">
+            Monthly Payment:
+            <input
+              type="number"
+              name="MonthlyPayment"
+              value={monthlyPayment}
+              onChange={(e) => handleResetMonthlyPayment(e.currentTarget.value)}
+            ></input>
+          </label>
         </form>
       </div>
+        <RevealData interestPaidArray={interestPaidArray}/>
       <div id="flexTable">
         <div className="tableCell">Date</div>
         <div className="tableCell">
@@ -240,18 +228,11 @@ const App = () => {
       </div>
 
       <button onClick={() => generateCalculation()}>Click Me</button>
-        <button onClick={() => window.location.reload() }>Reset Numbers</button>
-
-
-
-
-
-
+      <button onClick={() => window.location.reload()}>Reset Numbers</button>
 
 
     </section>
   );
 };
-
 
 export default App;
