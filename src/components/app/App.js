@@ -58,11 +58,30 @@ const App = () => {
   const [monthDate, setMonthDate] = useState([]);
 
   const generateCalculation = () => {
-    if (
-      (principalPaidArray.length < 1) |
-      (newEndingPrincipalArray[newEndingPrincipalArray.length - 1] >
-        bankPayment)
-    ) {
+    // if (
+    //   (principalPaidArray.length < 1) |
+    //   (newEndingPrincipalArray[newEndingPrincipalArray.length - 1] >
+    //     bankPayment)
+    // ) {
+
+    // switch (newEndingPrincipalArray[newEndingPrincipalArray.length - 1]) {
+    //   case undefined : console.log('set prinipcal'); break;
+    //   case mortgage : console.log('first set'); break;
+    //   case true : console.log('process request'); break;
+    //   case 0 : console.log('process request but need to check if array is 0'); break;
+    //
+    // };
+    let currentPrincipal =
+        parseInt(newEndingPrincipalArray[newEndingPrincipalArray.length - 1]);
+
+   switch (true){
+     case newEndingPrincipalArray.length < 1 : console.log('set principal'); break;
+     // case currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1 : console.log('process'); break;
+     case currentPrincipal > monthlyPayment : console.log('process'); break;
+     case currentPrincipal < monthlyPayment : console.log('set to 0'); break;
+
+   }
+
       if (extraNewEndingPrincipalArray.length < 1) {
         setExtraNewEndingPrincipalArray([principal]);
       }
@@ -71,10 +90,14 @@ const App = () => {
         setNewEndingPrincipalArray([principal]);
       }
 
-      let currentPrincipal =
-        newEndingPrincipalArray[newEndingPrincipalArray.length - 1];
 
-      if (currentPrincipal > monthlyPayment) {
+      // console.log({currentPrincipal});
+      // console.table({newEndingPrincipalArray});
+      // console.log({monthlyPayment});
+      // console.log({bankPayment});
+      // console.log(currentPrincipal > monthlyPayment);
+      if (currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1) {
+        console.log('hola');
         let paymentInterestPaid = numberConverter(
           currentPrincipal * ((interestRate * 0.01) / 12),
         );
@@ -120,7 +143,7 @@ const App = () => {
           extraBalance,
         ]);
       }
-    }
+    // }
   };
 
   const handleResetMortgageAmount = (e) => {
