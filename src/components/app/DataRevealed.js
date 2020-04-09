@@ -24,6 +24,14 @@ const RevealData = ({interestPaidArray, mortgage})=>{
             <div>
                 Total you paid {totalPaid} for a loan of ${mortgage}
             </div>
+                <div className="bar">
+                    <span id="principalBar" style={{width: `10px`, backgroundColor: "orange"}}>
+                        {mortgage}
+                    </span>
+                    <span id="interestPaid" style={{width: `{${paidInAss}/${totalPaid}}%`, backgroundColor: "pink"}}>
+                        {paidInAss}
+                    </span>
+                </div>
             </div>}
         </section>
     )
