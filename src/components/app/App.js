@@ -99,9 +99,6 @@ const App = () => {
         newEndingPrincipalArray.length >= 1:
         processPayment();
         break;
-      // case currentPrincipal < monthlyPayment:
-      //   processLastPayment();
-      //   break;
       case currentPrincipal < monthlyPayment:
         processLastPayment();
         break;
@@ -206,7 +203,7 @@ const App = () => {
           </label>
         </form>
       </div>
-      <RevealData interestPaidArray={interestPaidArray} />
+      <RevealData interestPaidArray={interestPaidArray} mortgage={mortgage} />
       <div id="flexTable">
         <div className="tableCell">Date</div>
         <div className="tableCell">
