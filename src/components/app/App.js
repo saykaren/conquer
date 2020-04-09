@@ -38,7 +38,7 @@ const App = () => {
   let yearArray = [2020];
 
   // // //User Input
-  const [principal, setPrincipal] = useState();
+  const [principal, setPrincipal] = useState(mortgage);
   const [interestRate, setInterestRate] = useState(interest);
   const [monthlyPayment, setMonthlyPayment] = useState(bankPayment);
   const [extraPayment, setExtraPayment] = useState(100);
@@ -58,118 +58,92 @@ const App = () => {
   const [monthDate, setMonthDate] = useState([]);
 
   const generateCalculation = () => {
-    // if (
-    //   (principalPaidArray.length < 1) |
-    //   (newEndingPrincipalArray[newEndingPrincipalArray.length - 1] >
-    //     bankPayment)
-    // ) {
+    let currentPrincipal = parseInt(
+      newEndingPrincipalArray[newEndingPrincipalArray.length - 1],
+    );
 
-    // switch (newEndingPrincipalArray[newEndingPrincipalArray.length - 1]) {
-    //   case undefined : console.log('set prinipcal'); break;
-    //   case mortgage : console.log('first set'); break;
-    //   case true : console.log('process request'); break;
-    //   case 0 : console.log('process request but need to check if array is 0'); break;
-    //
-    // };
-    let currentPrincipal =
-        parseInt(newEndingPrincipalArray[newEndingPrincipalArray.length - 1]);
-
-    const processPayment =()=>{
-        let paymentInterestPaid = numberConverter(
-            currentPrincipal * ((interestRate * 0.01) / 12),
-        );
-        let principalPaid = numberConverter(
-            monthlyPayment - paymentInterestPaid,
-        );
-        let balance = numberConverter(currentPrincipal - principalPaid);
-        setPrincipalPaidArray([...principalPaidArray, principalPaid]);
-        setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
-        setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
-        let monthDateIndex =
-            monthDate.length - Math.floor(monthDate.length / 12) * 12;
-        setMonthDate([...monthDate, monthArray[monthDateIndex]]);
-    }
-
-    const processLastPayment = ()=>{
-      console.log(`last payment ${currentPrincipal}`);
+    const processPayment = () => {
       let paymentInterestPaid = numberConverter(
-          currentPrincipal * ((interestRate * 0.01) / 12),
+        currentPrincipal * ((interestRate * 0.01) / 12),
       );
-      let principalPaid = numberConverter(
-          currentPrincipal
-      );
+      let principalPaid = numberConverter(monthlyPayment - paymentInterestPaid);
       let balance = numberConverter(currentPrincipal - principalPaid);
       setPrincipalPaidArray([...principalPaidArray, principalPaid]);
       setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
       setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
       let monthDateIndex =
-          monthDate.length - Math.floor(monthDate.length / 12) * 12;
+        monthDate.length - Math.floor(monthDate.length / 12) * 12;
       setMonthDate([...monthDate, monthArray[monthDateIndex]]);
+    };
+
+    const processLastPayment = () => {
+      console.log(`last payment ${currentPrincipal}`);
+      let paymentInterestPaid = numberConverter(
+        currentPrincipal * ((interestRate * 0.01) / 12),
+      );
+      let principalPaid = numberConverter(currentPrincipal);
+      let balance = numberConverter(currentPrincipal - principalPaid);
+      setPrincipalPaidArray([...principalPaidArray, principalPaid]);
+      setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
+      setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
+      let monthDateIndex =
+        monthDate.length - Math.floor(monthDate.length / 12) * 12;
+      setMonthDate([...monthDate, monthArray[monthDateIndex]]);
+    };
+
+    switch (true) {
+      case newEndingPrincipalArray.length < 1:
+        setNewEndingPrincipalArray([principal]);
+        break;
+      case currentPrincipal > monthlyPayment &&
+        newEndingPrincipalArray.length >= 1:
+        processPayment();
+        break;
+      // case currentPrincipal < monthlyPayment:
+      //   processLastPayment();
+      //   break;
+      case currentPrincipal < monthlyPayment:
+        processLastPayment();
+        break;
+      case newEndingPrincipalArray[newEndingPrincipalArray.length - 1] <= 0:
+        break;
+      default:
+        break;
     }
 
-   switch (true){
-     case newEndingPrincipalArray.length < 1 : setNewEndingPrincipalArray([principal]); break;
-     // case currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1 : console.log('process'); break;
-     case (currentPrincipal > monthlyPayment && newEndingPrincipalArray.length >= 1) : processPayment(); break;
-     case currentPrincipal < monthlyPayment : processLastPayment(); break;
-     case (newEndingPrincipalArray[newEndingPrincipalArray.length -1] <=0) : break;
-   }
+    if (extraNewEndingPrincipalArray.length < 1) {
+      setExtraNewEndingPrincipalArray([principal]);
+    }
 
-      if (extraNewEndingPrincipalArray.length < 1) {
-        setExtraNewEndingPrincipalArray([principal]);
-      }
+    //extra payment calculations
+    let extraCurrentPrincipal =
+      extraNewEndingPrincipalArray[extraNewEndingPrincipalArray.length - 1];
+    let extraMonthlyPaymentCal = monthlyPayment + extraPayment;
+    if (extraCurrentPrincipal > monthlyPayment + extraPayment) {
+      let extraPaymentInterestPaid = numberConverter(
+        extraCurrentPrincipal * ((interestRate * 0.01) / 12),
+      );
+      let extraPrincipalPaid = numberConverter(
+        extraMonthlyPaymentCal - extraPaymentInterestPaid,
+      );
+      let extraBalance = numberConverter(
+        extraCurrentPrincipal - extraPrincipalPaid,
+      );
 
+      setExtraPrincipalPaidArray([
+        ...extraPrincipalPaidArray,
+        extraPrincipalPaid,
+      ]);
+      setExtraInterestPaidArray([
+        ...extraInterestPaidArray,
+        extraPaymentInterestPaid,
+      ]);
 
-      // if (currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1) {
-      //   console.log('hola');
-      //   let paymentInterestPaid = numberConverter(
-      //     currentPrincipal * ((interestRate * 0.01) / 12),
-      //   );
-      //   let principalPaid = numberConverter(
-      //     monthlyPayment - paymentInterestPaid,
-      //   );
-      //   let balance = numberConverter(currentPrincipal - principalPaid);
-      //
-      //   setPrincipalPaidArray([...principalPaidArray, principalPaid]);
-      //   setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
-      //   setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
-      //
-      //   let monthDateIndex =
-      //     monthDate.length - Math.floor(monthDate.length / 12) * 12;
-      //   setMonthDate([...monthDate, monthArray[monthDateIndex]]);
-      // }
-
-
-
-      //extra payment calculations
-      let extraCurrentPrincipal =
-        extraNewEndingPrincipalArray[extraNewEndingPrincipalArray.length - 1];
-      let extraMonthlyPaymentCal = monthlyPayment + extraPayment;
-      if (extraCurrentPrincipal > monthlyPayment + extraPayment) {
-        let extraPaymentInterestPaid = numberConverter(
-          extraCurrentPrincipal * ((interestRate * 0.01) / 12),
-        );
-        let extraPrincipalPaid = numberConverter(
-          extraMonthlyPaymentCal - extraPaymentInterestPaid,
-        );
-        let extraBalance = numberConverter(
-          extraCurrentPrincipal - extraPrincipalPaid,
-        );
-
-        setExtraPrincipalPaidArray([
-          ...extraPrincipalPaidArray,
-          extraPrincipalPaid,
-        ]);
-        setExtraInterestPaidArray([
-          ...extraInterestPaidArray,
-          extraPaymentInterestPaid,
-        ]);
-
-        setExtraNewEndingPrincipalArray([
-          ...extraNewEndingPrincipalArray,
-          extraBalance,
-        ]);
-      }
+      setExtraNewEndingPrincipalArray([
+        ...extraNewEndingPrincipalArray,
+        extraBalance,
+      ]);
+    }
     // }
   };
 
@@ -187,6 +161,7 @@ const App = () => {
     setMonthlyPayment(e);
     setBankPayment(e);
   };
+  console.table(interestPaidArray);
 
   return (
     <section className="App">
@@ -194,38 +169,49 @@ const App = () => {
         <form>
           <label className="inputSection">
             Mortage:
-            <input
-              type="number"
-              name="Mortgage"
-              value={mortgage}
-              onChange={(e) => handleResetMortgageAmount(e.currentTarget.value)}
-            ></input>
+            {(newEndingPrincipalArray.length <= 1 && (
+              <input
+                type="number"
+                name="Mortgage"
+                value={mortgage}
+                onChange={(e) =>
+                  handleResetMortgageAmount(e.currentTarget.value)
+                }
+              ></input>
+            )) || <span>{mortgage}</span>}
           </label>
           <label className="inputSection">
             Interest Rate:
-            <input
-              type="number"
-              name="Interest"
-              value={interest}
-              onChange={(e) => handleResetInterestRate(e.currentTarget.value)}
-            ></input>
+            {(newEndingPrincipalArray.length <= 1 && (
+              <input
+                type="number"
+                name="Interest"
+                value={interest}
+                onChange={(e) => handleResetInterestRate(e.currentTarget.value)}
+              ></input>
+            )) || <span>{interest}</span>}
           </label>
           <label className="inputSection">
             Monthly Payment:
-            <input
-              type="number"
-              name="MonthlyPayment"
-              value={monthlyPayment}
-              onChange={(e) => handleResetMonthlyPayment(e.currentTarget.value)}
-            ></input>
+            {(newEndingPrincipalArray.length <= 1 && (
+              <input
+                type="number"
+                name="MonthlyPayment"
+                value={monthlyPayment}
+                onChange={(e) =>
+                  handleResetMonthlyPayment(e.currentTarget.value)
+                }
+              ></input>
+            )) || <span>{monthlyPayment}</span>}
           </label>
         </form>
       </div>
-        <RevealData interestPaidArray={interestPaidArray}/>
+      <RevealData interestPaidArray={interestPaidArray} />
       <div id="flexTable">
         <div className="tableCell">Date</div>
         <div className="tableCell">
           Principal
+          <div className="cellDetails">{mortgage}</div>
           {newEndingPrincipalArray.map((value, index) => (
             <div className="cellDetails" key={index}>
               {value}
@@ -276,11 +262,13 @@ const App = () => {
           ))}
         </div>
       </div>
-
-      <button onClick={() => generateCalculation()}>Click Me</button>
+      {(newEndingPrincipalArray[newEndingPrincipalArray.length - 1] > 0 ||
+        newEndingPrincipalArray[newEndingPrincipalArray.length - 1] ==
+          undefined) && (
+        <button onClick={() => generateCalculation()}>Click Me</button>
+      )}
+      {/*<button onClick={() => generateCalculation()}>Click Me</button>*/}
       <button onClick={() => window.location.reload()}>Reset Numbers</button>
-
-
     </section>
   );
 };
