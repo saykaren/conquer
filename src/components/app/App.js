@@ -38,7 +38,7 @@ const App = () => {
   let yearArray = [2020];
 
   // // //User Input
-  const [principal, setPrincipal] = useState(mortgage);
+  const [principal, setPrincipal] = useState();
   const [interestRate, setInterestRate] = useState(interest);
   const [monthlyPayment, setMonthlyPayment] = useState(bankPayment);
   const [extraPayment, setExtraPayment] = useState(100);
@@ -74,46 +74,73 @@ const App = () => {
     let currentPrincipal =
         parseInt(newEndingPrincipalArray[newEndingPrincipalArray.length - 1]);
 
-   switch (true){
-     case newEndingPrincipalArray.length < 1 : console.log('set principal'); break;
-     // case currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1 : console.log('process'); break;
-     case currentPrincipal > monthlyPayment : console.log('process'); break;
-     case currentPrincipal < monthlyPayment : console.log('set to 0'); break;
+    const processPayment =()=>{
+        let paymentInterestPaid = numberConverter(
+            currentPrincipal * ((interestRate * 0.01) / 12),
+        );
+        let principalPaid = numberConverter(
+            monthlyPayment - paymentInterestPaid,
+        );
+        let balance = numberConverter(currentPrincipal - principalPaid);
+        setPrincipalPaidArray([...principalPaidArray, principalPaid]);
+        setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
+        setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
+        let monthDateIndex =
+            monthDate.length - Math.floor(monthDate.length / 12) * 12;
+        setMonthDate([...monthDate, monthArray[monthDateIndex]]);
+    }
 
+    const processLastPayment = ()=>{
+      console.log(`last payment ${currentPrincipal}`);
+      let paymentInterestPaid = numberConverter(
+          currentPrincipal * ((interestRate * 0.01) / 12),
+      );
+      let principalPaid = numberConverter(
+          currentPrincipal
+      );
+      let balance = numberConverter(currentPrincipal - principalPaid);
+      setPrincipalPaidArray([...principalPaidArray, principalPaid]);
+      setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
+      setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
+      let monthDateIndex =
+          monthDate.length - Math.floor(monthDate.length / 12) * 12;
+      setMonthDate([...monthDate, monthArray[monthDateIndex]]);
+    }
+
+   switch (true){
+     case newEndingPrincipalArray.length < 1 : setNewEndingPrincipalArray([principal]); break;
+     // case currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1 : console.log('process'); break;
+     case (currentPrincipal > monthlyPayment && newEndingPrincipalArray.length >= 1) : processPayment(); break;
+     case currentPrincipal < monthlyPayment : processLastPayment(); break;
+     case (newEndingPrincipalArray[newEndingPrincipalArray.length -1] <=0) : break;
    }
 
       if (extraNewEndingPrincipalArray.length < 1) {
         setExtraNewEndingPrincipalArray([principal]);
       }
 
-      if (newEndingPrincipalArray.length < 1) {
-        setNewEndingPrincipalArray([principal]);
-      }
+
+      // if (currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1) {
+      //   console.log('hola');
+      //   let paymentInterestPaid = numberConverter(
+      //     currentPrincipal * ((interestRate * 0.01) / 12),
+      //   );
+      //   let principalPaid = numberConverter(
+      //     monthlyPayment - paymentInterestPaid,
+      //   );
+      //   let balance = numberConverter(currentPrincipal - principalPaid);
+      //
+      //   setPrincipalPaidArray([...principalPaidArray, principalPaid]);
+      //   setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
+      //   setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
+      //
+      //   let monthDateIndex =
+      //     monthDate.length - Math.floor(monthDate.length / 12) * 12;
+      //   setMonthDate([...monthDate, monthArray[monthDateIndex]]);
+      // }
 
 
-      // console.log({currentPrincipal});
-      // console.table({newEndingPrincipalArray});
-      // console.log({monthlyPayment});
-      // console.log({bankPayment});
-      // console.log(currentPrincipal > monthlyPayment);
-      if (currentPrincipal > monthlyPayment & newEndingPrincipalArray.length >= 1) {
-        console.log('hola');
-        let paymentInterestPaid = numberConverter(
-          currentPrincipal * ((interestRate * 0.01) / 12),
-        );
-        let principalPaid = numberConverter(
-          monthlyPayment - paymentInterestPaid,
-        );
-        let balance = numberConverter(currentPrincipal - principalPaid);
 
-        setPrincipalPaidArray([...principalPaidArray, principalPaid]);
-        setInterestPaidArray([...interestPaidArray, paymentInterestPaid]);
-        setNewEndingPrincipalArray([...newEndingPrincipalArray, balance]);
-
-        let monthDateIndex =
-          monthDate.length - Math.floor(monthDate.length / 12) * 12;
-        setMonthDate([...monthDate, monthArray[monthDateIndex]]);
-      }
       //extra payment calculations
       let extraCurrentPrincipal =
         extraNewEndingPrincipalArray[extraNewEndingPrincipalArray.length - 1];
