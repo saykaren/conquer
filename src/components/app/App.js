@@ -163,7 +163,7 @@ const App = () => {
   return (
     <section className="App">
       <div id="inputSection">
-        <form id="inputForm">
+        <form className="inputForm">
           <label className="inputSection">
             Mortage:
             {(newEndingPrincipalArray.length <= 1 && (

@@ -18,13 +18,15 @@ const RevealData = ({interestPaidArray, mortgage})=>{
 
     return(
 
-        <section className="inspectionData">
+        <section className="inputForm">
             {interestPaidArray.length>0 && <div>
+                <div className="dataSection">
                 Typical Mortgage Payment: You Paid the Bank ${paidInAss}
-            <div>
+                </div>
+            <div className="dataSection">
                 Total you paid {totalPaid} for a loan of ${mortgage}
             </div>
-                <div className="bar">
+                <div className="bar inputSection">
                     <span id="principalBar" style={{width: `10px`, backgroundColor: "orange"}}>
                         {mortgage}
                     </span>

@@ -44,7 +44,7 @@ html{
   flex-direction: column;
 }
 
-#inputForm {
+.inputForm {
   display: flex;
   flex-wrap: wrap;
   background-color: white;
@@ -59,10 +59,18 @@ html{
 
 //class
 .inputSection{
+   padding: 1em;
+   background-color: $primary-color;
+   margin: 1em;
+   flex: 1;
+ }
+
+.dataSection{
   padding: 1em;
   background-color: $primary-color;
   margin: 1em;
   flex: 1;
+  flex-wrap: wrap;
 }
 
 //.App-header {
