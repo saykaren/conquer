@@ -30,7 +30,7 @@ html{
   border: 1px solid black;
   background-color: white;
   display: flex;
-
+  flex-wrap: wrap;
 }
 
 .tableCell {
@@ -44,15 +44,27 @@ html{
   flex-direction: column;
 }
 
+#inputForm {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  flex: 1;
+}
+
 #inputSection{
   display: flex;
   padding: 1em;
-  justify-content: space-between;
+
 }
 
-.inputSection {
+//class
+.inputSection{
   padding: 1em;
+  background-color: $primary-color;
+  margin: 1em;
+  flex: 1;
 }
+
 //.App-header {
 //  background-color: #282c34;
 //  min-height: 100vh;
