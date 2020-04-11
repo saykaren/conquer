@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../styling/App1.scss';
 import numberConverter from './numberConverter';
 import RevealData from './DataRevealed';
+import Footer from './Footer';
 
 ///Dates
 let todayDate = new Date();
@@ -266,6 +267,7 @@ const App = () => {
       )}
 
       <button onClick={() => window.location.reload()}>Reset Numbers</button>
+        <Footer/>
     </section>
   );
 };
