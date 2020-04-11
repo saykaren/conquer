@@ -262,9 +262,9 @@ const App = () => {
       {(newEndingPrincipalArray[newEndingPrincipalArray.length - 1] > 0 ||
         newEndingPrincipalArray[newEndingPrincipalArray.length - 1] ==
           undefined) && (
-        <button onClick={() => generateCalculation()}>Click Me</button>
+        <button onClick={() => generateCalculation()}>Calculate</button>
       )}
-      {/*<button onClick={() => generateCalculation()}>Click Me</button>*/}
+
       <button onClick={() => window.location.reload()}>Reset Numbers</button>
     </section>
   );

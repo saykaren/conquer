@@ -6,7 +6,7 @@ const RevealData = ({interestPaidArray, mortgage})=>{
     let paidInAss;
 
 
-    const arrayResults = interestPaidArray;
+    // const arrayResults = interestPaidArray;
     if(interestPaidArray.length > 0){
         paidInAss = numberConverter(interestPaidArray.reduce((accu, cur)=>(
 
@@ -18,21 +18,21 @@ const RevealData = ({interestPaidArray, mortgage})=>{
 
     return(
 
-        <section className="inputForm">
-            {interestPaidArray.length>0 && <div>
+        <section >
+            {interestPaidArray.length>0 && <div className="dataForm">
                 <div className="dataSection">
-                Typical Mortgage Payment: You Paid the Bank ${paidInAss}
+                You Paid the Bank ${paidInAss}
                 </div>
             <div className="dataSection">
-                Total you paid {totalPaid} for a loan of ${mortgage}
+                Total you paid ${totalPaid} for a loan of ${mortgage}
             </div>
-                <div className="bar inputSection">
-                    <span id="principalBar" style={{width: `10px`, backgroundColor: "orange"}}>
-                        {mortgage}
-                    </span>
-                    <span id="interestPaid" style={{width: `{${paidInAss}/${totalPaid}}%`, backgroundColor: "pink"}}>
-                        {paidInAss}
-                    </span>
+                <div className="bar dataSection" >
+                    <div id="principalBar" style={{width: `{${mortgage}/${totalPaid}}%`, backgroundColor: '#282c34', border: '4px solid white'}}>
+                        ${mortgage} Mortgage
+                    </div>
+                    <div id="interestPaid" style={{width: `{${paidInAss}/${totalPaid}}%`, backgroundColor: '#61dafb', border: '4px solid white', color: '#282c34' }}>
+                        ${paidInAss} Interest Paid
+                    </div>
                 </div>
             </div>}
         </section>

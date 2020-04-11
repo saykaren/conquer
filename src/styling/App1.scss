@@ -9,9 +9,17 @@ html{
   color: $secondary-color;
 }
 
+button{
+  background-color: white;
+  color: $primary-color;
+  box-shadow: 3px 2px 4px $secondary-color;
+  border-radius: 5px;
+  margin: 5px;
+  border: 2px solid $secondary-color;
+  padding: 7px;
+}
 .bar {
-  background-color: purple;
-  width: 300px;
+
 }
 
 #table {
@@ -71,6 +79,14 @@ html{
   margin: 1em;
   flex: 1;
   flex-wrap: wrap;
+}
+
+.dataForm {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  flex: 1;
+  margin: 1em;
 }
 
 //.App-header {
